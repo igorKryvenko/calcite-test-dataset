@@ -13,12 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM mongo:3
+FROM mongo:3.2
 
 EXPOSE 27017
 
-ADD zips.json /dataset/zips/
+COPY zips /dataset/zips/
+COPY foodmart /dataset/foodmart/
 
-ADD init_mongodb.sh /
 
-RUN chmod +x /init_mongodb.sh
+COPY init_mongodb.sh /docker-entrypoint-initdb.d/

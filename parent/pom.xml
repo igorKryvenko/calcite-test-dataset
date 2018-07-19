@@ -53,7 +53,7 @@
       </dependency>
       <dependency>
         <groupId>com.github.vlsi.calcite</groupId>
-        <artifactId>vm</artifactId>
+        <artifactId>docker</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
       </dependency>

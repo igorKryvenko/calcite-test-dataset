@@ -1,0 +1,14 @@
+version: '3'
+services:
+  druid:
+    build: .
+    restart: always
+    ports:
+    - "8081:8081"
+    - "8082:8082"
+    - "8083:8083"
+    - "8084:8084"
+    - "8090:8090"
+    # network_mode: "host"
+
+

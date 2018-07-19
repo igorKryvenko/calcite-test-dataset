@@ -1,0 +1,13 @@
+version: "3"
+services:
+  geode:
+    build: .
+    restart: always
+    ports:
+      - "10334:10334"
+      - "40405:40405"
+      - "8484:8484"
+      - "1099:1099"
+      - "7070:7070"
+    network_mode: "host"
+    tty: true

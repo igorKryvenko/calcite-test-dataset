@@ -1,0 +1,19 @@
+version: "3"
+services:
+  elastic5:
+    build: .
+    restart: always
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    network_mode: "host"
+    volumes:
+      - ./zips_es.json:/usr/share/elasticsearch/data/zips_es.json:rw
+    tty:
+      true
+  elastic-index:
+    command: /dataset/init_elasticsearch.sh
+    build:
+      context: .
+    depends_on:
+      - elastic5

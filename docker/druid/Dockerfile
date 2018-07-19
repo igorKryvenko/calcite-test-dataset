@@ -13,16 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM druidio/example-cluster
+FROM openjdk:8
 
 ADD druid /dataset/druid
 
-RUN chmod +x /dataset/druid/index.sh
+RUN apt-get update && apt-get install -y \
+curl
 
-RUN chmod +x /dataset/druid/query.sh
+RUN chmod 755 /dataset/druid/install.sh
+RUN chmod 755 /dataset/druid/index.sh
+RUN chmod 755 /dataset/druid/query.sh
+RUN chmod 755 /dataset/druid/run.sh
 
-EXPOSE 8081
-EXPOSE 8082
-EXPOSE 8083
-EXPOSE 8084
-EXPOSE 8090
+
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN ln -s usr/local/bin/docker-entrypoint.sh /entrypoint.sh # backwards compat
+RUN chmod 755 usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT docker-entrypoint.sh

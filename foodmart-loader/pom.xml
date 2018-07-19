@@ -31,7 +31,7 @@
 
     <dependency>
       <groupId>com.github.vlsi.calcite</groupId>
-      <artifactId>vm</artifactId>
+      <artifactId>docker</artifactId>
       <type>pom</type>
     </dependency>
 

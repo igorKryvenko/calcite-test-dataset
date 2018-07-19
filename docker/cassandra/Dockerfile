@@ -16,9 +16,8 @@
 FROM cassandra:3
 
 ADD dataset /dataset/twissandra
-
-ADD init_cassandra.sh /
-
-RUN chmod +x /init_cassandra.sh
-
-EXPOSE 9042
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod a+x /usr/local/bin/docker-entrypoint.sh
+COPY init_cassandra.sh /docker-entrypoint-initdb.d/
+RUN chmod a+x /docker-entrypoint-initdb.d/init_cassandra.sh
+# RUN ln -s /docker-entrypoint.sh usr/local/bin/docker-entrypoint.sh
