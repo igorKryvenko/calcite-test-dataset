@@ -1,3 +1,3 @@
-/home/igor/IdeaProjects/calcite-test-dataset/geode-standalone-cluster/src/main/java/org/apache/calcite/adapter/geode/application/GeodeStandaloneClusterProperties.java
-/home/igor/IdeaProjects/calcite-test-dataset/geode-standalone-cluster/src/main/java/org/apache/calcite/adapter/geode/application/GeodeStandaloneClusterApplication.java
-/home/igor/IdeaProjects/calcite-test-dataset/geode-standalone-cluster/src/main/java/org/apache/calcite/adapter/geode/application/JsonLoader.java
+/opt/apache/calcite-test-dataset/geode-standalone-cluster/src/main/java/org/apache/calcite/adapter/geode/application/GeodeStandaloneClusterApplication.java
+/opt/apache/calcite-test-dataset/geode-standalone-cluster/src/main/java/org/apache/calcite/adapter/geode/application/JsonLoader.java
+/opt/apache/calcite-test-dataset/geode-standalone-cluster/src/main/java/org/apache/calcite/adapter/geode/application/GeodeStandaloneClusterProperties.java

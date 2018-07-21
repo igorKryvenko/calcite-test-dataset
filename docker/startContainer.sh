@@ -14,17 +14,55 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+start_mongodb() {
+    rm -rf ./mongo/foodmart/
+    rm -rf ./mongo/zips/
+  cp -r ../foodmart-dataset/target/foodmart-data-json/. ./mongo/foodmart
+  cp -r ../zips/src/main/resources/dataset/. ./mongo/zips
+  docker-compose up -d --build --force-recreate mongodb
+}
+
+start_geode() {
+    rm -rf ./geode/geode/
+    rm -rf ./geode/dataset/
+    cp -r ../geode-standalone-cluster/target/. ./geode/geode/
+    cp -r ../zips/src/main/resources/dataset/ ./geode/
+
+    docker-compose up -d --build --force-recreate geode
+}
+
+start_cassandra() {
+    echo "Starting cassandra"
+    rm -rf ./cassandra/dataset/
+    cp -r ../twissandra/src/main/resources/dataset/ ./cassandra/
+
+    docker-compose up -d --build --force-recreate cassandra
+}
+
 case $1 in
 (mongo)
-  docker start mongo_container
+    start_mongodb
   ;;
 (cassandra)
-  docker start cassandra_container
+  start_cassandra
   ;;
-(elastic)
-  docker start elasticsearch_container
+(elastic2)
+  docker-compose up -d elastic2 --build --force-recreate
   ;;
+(elastic5)
+ docker-compose up -d elastic5 --build --force-recreate
+ ;;
 (druid)
-  docker start druid_container
+  docker-compose up -d druid --build --force-recreate
+  ;;
+(geode)
+  start_geode
+  ;;
+(jdbc)
+  docker-compose up -d mysql postgres --build --force-recreate
+  ;;
+(all)
+  docker-compose up -d --build --force-recreate
   ;;
 esac

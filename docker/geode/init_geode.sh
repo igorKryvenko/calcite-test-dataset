@@ -39,7 +39,7 @@ sleep 15s
 # Start Geode server
 /etc/init.d/geode-server start --geode.memberMode=server \
        --geode.region.Zips=PARTITION \
-       --geode.jsonLoad.Zips=file:/dataset/zips/zips.json
+       --geode.jsonLoad.Zips=file:/dataset/zips.json
 
 echo Geode is ready
 

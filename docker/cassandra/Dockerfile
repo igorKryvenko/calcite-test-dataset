@@ -15,9 +15,14 @@
 
 FROM cassandra:3
 
-ADD dataset /dataset/twissandra
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod a+x /usr/local/bin/docker-entrypoint.sh
+COPY dataset /dataset/twissandra
+COPY docker-entrypoint.sh /
 COPY init_cassandra.sh /docker-entrypoint-initdb.d/
-RUN chmod a+x /docker-entrypoint-initdb.d/init_cassandra.sh
-# RUN ln -s /docker-entrypoint.sh usr/local/bin/docker-entrypoint.sh
+
+
+RUN chmod a+x /docker-entrypoint.sh \
+    && chmod a+x /docker-entrypoint-initdb.d/init_cassandra.sh
+
+
+ENTRYPOINT ["/docker-entrypoint.sh]
+

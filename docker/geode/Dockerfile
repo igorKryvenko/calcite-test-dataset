@@ -14,18 +14,20 @@
 # limitations under the License.
 
 FROM openjdk:8
-ADD dataset /dataset/
-ADD geode /geode
-ADD init_geode.sh /geode
-ADD init_geode_gfsh.sh /geode
-RUN chmod -R 755 /geode
+
+COPY dataset /dataset/
+COPY geode /geode
+COPY init_geode.sh /geode
+COPY docker-entrypoint.sh /
+
+
+RUN chmod -R 755 /geode \
+    && chmod a+x /geode/init_geode.sh \
+    && chmod a+x /geode/init_geode_gfsh.sh \
+    && chmod a+x /docker-entrypoint.sh
+
 
 WORKDIR /geode
-
-RUN ln -s /geode/geode-standalone-cluster-0.0.1-SNAPSHOT.jar /etc/init.d/geode-locator
-RUN ln -s /geode/geode-standalone-cluster-0.0.1-SNAPSHOT.jar /etc/init.d/geode-server
-
-
 
 
 #geode_gfsh
@@ -35,16 +37,15 @@ RUN  apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 RUN wget http://apache.proserve.nl/geode/1.4.0/apache-geode-1.4.0.zip \
- && unzip apache-geode-1.4.0.zip
+    && unzip apache-geode-1.4.0.zip
 
-WORKDIR /geode
-RUN export GEODE_HOME=/geode/apache-geode-1.4.0
-ENV PATH="${GEODE_HOME}:${PATH}"
+ENV GEODE_HOME /geode/apache-geode-1.4.0
+ENV PATH $GEODE_HOME/:$PATH
 
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN ln -s usr/local/bin/docker-entrypoint.sh /entrypoint.sh # backwards compat
-RUN chmod 755 /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT docker-entrypoint.sh
+RUN ln -s /geode/geode-standalone-cluster-0.0.1-SNAPSHOT.jar /etc/init.d/geode-locator
+RUN ln -s /geode/geode-standalone-cluster-0.0.1-SNAPSHOT.jar /etc/init.d/geode-server
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 
 
