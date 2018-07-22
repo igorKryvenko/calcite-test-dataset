@@ -1,4 +1,3 @@
-#!/bin/bash
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -14,33 +13,41 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This file is called automatically by Vagrant VM provision
-echo Start Geode and Load datasets
 
-cd /geode
+FROM ubuntu:16.04
 
-ln -s /geode/geode-standalone-cluster-0.0.1-SNAPSHOT.jar /etc/init.d/geode-locator
-ln -s /geode/geode-standalone-cluster-0.0.1-SNAPSHOT.jar /etc/init.d/geode-server
+COPY wait-for.sh /
+COPY docker-entrypoint.sh /
 
-# Stop running Geode services and remove the related temp files
-/etc/init.d/geode-locator stop
-/etc/init.d/geode-server stop
+RUN apt-get update && apt-get install -y \
+    curl \
+    gcc \
+    git \
+    lib32z1-dev \
+    libffi-dev \
+    libssl-dev \
+    libxml2 \
+    libxslt-dev \
+    lnav \
+    maven \
+    python-dev \
+    python-lxml \
+    python-setuptools \
+    libssl-dev \
+    libpam-cracklib \
+    openjdk-8-jdk \
+    libxmlsec1-dev \
+    make \
+    unzip \
+    netcat \
+    nano \
+    net-tools
 
-rm ./vf.gf.*.pid
-rm ./*.log
-rm ./*.dat
-rm -Rf ./ConfigDiskDir_locator
+RUN chmod a+x /wait-for.sh \
+    && chmod a+x /docker-entrypoint.sh
 
-# Start Geode locator
-/etc/init.d/geode-locator start --geode.memberMode=locator
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
-sleep 15s
 
-# Start Geode server
-/etc/init.d/geode-server start --geode.memberMode=server \
-       --geode.region.Zips=PARTITION \
-       --geode.jsonLoad.Zips=file:/dataset/zips.json
 
-echo Geode is ready
 
-exit 0

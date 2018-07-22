@@ -15,10 +15,8 @@
 
 FROM mongo:3.2
 
-EXPOSE 27017
-
 COPY zips /dataset/zips/
 COPY foodmart /dataset/foodmart/
-
-
 COPY init_mongodb.sh /docker-entrypoint-initdb.d/
+
+RUN chmod a+x /docker-entrypoint-initdb.d/init_mongodb.sh

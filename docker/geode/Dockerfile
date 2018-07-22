@@ -15,16 +15,22 @@
 
 FROM openjdk:8
 
+USER root
+
 COPY dataset /dataset/
 COPY geode /geode
-COPY init_geode.sh /geode
 COPY docker-entrypoint.sh /
+COPY wait-for.sh /
 
 
 RUN chmod -R 755 /geode \
-    && chmod a+x /geode/init_geode.sh \
-    && chmod a+x /geode/init_geode_gfsh.sh \
-    && chmod a+x /docker-entrypoint.sh
+    && chmod a+x /docker-entrypoint.sh \
+    && chmod a+x /wait-for.sh
+
+
+RUN apt-get update \
+    && apt-get install -y curl tar sudo openssh-server rsync netcat nano net-tools wget \
+    && rm -rf /var/lib/apt/lists/*
 
 
 WORKDIR /geode
@@ -32,20 +38,20 @@ WORKDIR /geode
 
 #geode_gfsh
 
-RUN  apt-get update \
-  && apt-get install -y wget \
-  && rm -rf /var/lib/apt/lists/*
+ENV GEODE_VERSION 1.4.0
 
-RUN wget http://apache.proserve.nl/geode/1.4.0/apache-geode-1.4.0.zip \
-    && unzip apache-geode-1.4.0.zip
+RUN wget http://apache.proserve.nl/geode/${GEODE_VERSION}/apache-geode-${GEODE_VERSION}.zip \
+    && unzip apache-geode-${GEODE_VERSION}.zip
 
-ENV GEODE_HOME /geode/apache-geode-1.4.0
+ENV GEODE_HOME /geode/apache-geode-${GEODE_VERSION}
 ENV PATH $GEODE_HOME/:$PATH
 
 RUN ln -s /geode/geode-standalone-cluster-0.0.1-SNAPSHOT.jar /etc/init.d/geode-locator
 RUN ln -s /geode/geode-standalone-cluster-0.0.1-SNAPSHOT.jar /etc/init.d/geode-server
 
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
 
 
 

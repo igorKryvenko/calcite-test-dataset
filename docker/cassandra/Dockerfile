@@ -15,14 +15,22 @@
 
 FROM cassandra:3
 
+USER root
+
+RUN apt-get update
+
 COPY dataset /dataset/twissandra
 COPY docker-entrypoint.sh /
 COPY init_cassandra.sh /docker-entrypoint-initdb.d/
+COPY wait-for.sh /
 
 
 RUN chmod a+x /docker-entrypoint.sh \
-    && chmod a+x /docker-entrypoint-initdb.d/init_cassandra.sh
+    && chmod a+x /docker-entrypoint-initdb.d/init_cassandra.sh \
+    && chmod a+x /wait-for.sh
+
+RUN apt install -y curl tar sudo openssh-server rsync netcat nano net-tools
 
 
-ENTRYPOINT ["/docker-entrypoint.sh]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 

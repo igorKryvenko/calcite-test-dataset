@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -14,33 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This file is called automatically by Vagrant VM provision
-echo Start Geode and Load datasets
+/wait-for.sh 127.0.0.1:3306 -t 50
+/wait-for.sh 127.0.0.1:5433 -t 50
 
-cd /geode
-
-ln -s /geode/geode-standalone-cluster-0.0.1-SNAPSHOT.jar /etc/init.d/geode-locator
-ln -s /geode/geode-standalone-cluster-0.0.1-SNAPSHOT.jar /etc/init.d/geode-server
-
-# Stop running Geode services and remove the related temp files
-/etc/init.d/geode-locator stop
-/etc/init.d/geode-server stop
-
-rm ./vf.gf.*.pid
-rm ./*.log
-rm ./*.dat
-rm -Rf ./ConfigDiskDir_locator
-
-# Start Geode locator
-/etc/init.d/geode-locator start --geode.memberMode=locator
-
-sleep 15s
-
-# Start Geode server
-/etc/init.d/geode-server start --geode.memberMode=server \
-       --geode.region.Zips=PARTITION \
-       --geode.jsonLoad.Zips=file:/dataset/zips.json
-
-echo Geode is ready
-
-exit 0
+git clone https://github.com/pentaho/mondrian.git
+cd mondrian/mondrian
+mvn clean install -DskipTests \
+    && cd .. \
+    && bin/loadFoodMart.sh --db mysql \
+    && bin/loadFoodMart.sh --db postgres

@@ -31,7 +31,7 @@ public class GeodeStandaloneClusterProperties {
 
     private MemberMode memberMode;
     private Integer locatorPort = 10334;
-    private String locatorHost = "0.0.0.0";
+    private String locatorHost = "localhost";
     private Integer serverPort = 40405;
     private Integer jmxManagerPort = 1099;
     private Boolean jmxManager = true;

@@ -73,8 +73,10 @@ if [ "$1" = 'cassandra' ]; then
 	done
 fi
 
-exec "$@" > /dev/null &
-sleep 30
+exec "$@" &
+
+/wait-for.sh ${CASSANDRA_HOST} -t 50
+
 for f in /docker-entrypoint-initdb.d/*; do
     case "$f" in
         *.sh)     echo "$0: running $f"; . "$f" ;;
@@ -83,3 +85,5 @@ for f in /docker-entrypoint-initdb.d/*; do
     esac
     echo
 done
+echo "Cassandra is ready to accept requests"
+tail -f /var/log/cassandra/system.log

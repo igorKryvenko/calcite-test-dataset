@@ -16,11 +16,11 @@
 
 
 start_mongodb() {
+
     rm -rf ./mongo/foodmart/
     rm -rf ./mongo/zips/
-  cp -r ../foodmart-dataset/target/foodmart-data-json/. ./mongo/foodmart
-  cp -r ../zips/src/main/resources/dataset/. ./mongo/zips
-  docker-compose up -d --build --force-recreate mongodb
+    cp -r ../foodmart-dataset/target/foodmart-data-json/. ./mongo/foodmart
+    cp -r ../zips/src/main/resources/dataset/. ./mongo/zips
 }
 
 start_geode() {
@@ -28,24 +28,22 @@ start_geode() {
     rm -rf ./geode/dataset/
     cp -r ../geode-standalone-cluster/target/. ./geode/geode/
     cp -r ../zips/src/main/resources/dataset/ ./geode/
-
-    docker-compose up -d --build --force-recreate geode
 }
 
 start_cassandra() {
     echo "Starting cassandra"
     rm -rf ./cassandra/dataset/
     cp -r ../twissandra/src/main/resources/dataset/ ./cassandra/
-
-    docker-compose up -d --build --force-recreate cassandra
 }
 
 case $1 in
 (mongo)
     start_mongodb
+    docker-compose up --build --force-recreate mongo
   ;;
 (cassandra)
   start_cassandra
+  docker-compose up --build --force-recreate cassandra
   ;;
 (elastic2)
   docker-compose up -d elastic2 --build --force-recreate
@@ -58,9 +56,10 @@ case $1 in
   ;;
 (geode)
   start_geode
+  docker-compose up  --build --force-recreate geode
   ;;
 (jdbc)
-  docker-compose up -d mysql postgres --build --force-recreate
+  docker-compose up --build --force-recreate jdbc
   ;;
 (all)
   docker-compose up -d --build --force-recreate

@@ -15,20 +15,23 @@ services:
 
   cassandra:
     build: cassandra
-    restart: always
     ports:
-    - "127.0.0.1:9042:9042"
+      - "127.0.0.1:9042:9042"
+    environment:
+      - CASSANDRA_HOST=127.0.0.1:9042
+
 
   geode:
     build: geode
-    restart: always
     ports:
-      - "10334:10334"
-      - "40405:40405"
-      - "8484:8484"
-      - "1099:1099"
-      - "7070:7070"
+      - "127.0.0.1:10334:10334"
+      - "127.0.0.1:40405:40405"
+      - "127.0.0.1:8484:8484"
+      - "127.0.0.1:1099:1099"
+      - "127.0.0.1:7070:7070"
+    network_mode: "host"
     tty: true
+
 #
   druid:
     build: druid
@@ -59,5 +62,12 @@ services:
       POSTGRES_USER: foodmart
       POSTGRES_PASSWORD: foodmart
       POSTGRES_DB: foodmart
+
+  jdbc:
+    build: jdbc
+    depends_on:
+      - mysql
+      - postgres
+
 
 
