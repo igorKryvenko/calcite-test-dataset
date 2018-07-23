@@ -21,22 +21,9 @@ COPY docker-entrypoint.sh /
 
 RUN apt-get update && apt-get install -y \
     curl \
-    gcc \
     git \
-    lib32z1-dev \
-    libffi-dev \
-    libssl-dev \
-    libxml2 \
-    libxslt-dev \
-    lnav \
     maven \
-    python-dev \
-    python-lxml \
-    python-setuptools \
-    libssl-dev \
-    libpam-cracklib \
     openjdk-8-jdk \
-    libxmlsec1-dev \
     make \
     unzip \
     netcat \

@@ -15,11 +15,8 @@
 # limitations under the License.
 
 /wait-for.sh 127.0.0.1:3306 -t 50
-/wait-for.sh 127.0.0.1:5433 -t 50
+/wait-for.sh 127.0.0.1:5432 -t 50
 
-git clone https://github.com/pentaho/mondrian.git
-cd mondrian/mondrian
-mvn clean install -DskipTests \
-    && cd .. \
-    && bin/loadFoodMart.sh --db mysql \
-    && bin/loadFoodMart.sh --db postgres
+git clone git://github.com/julianhyde/foodmart-data-mysql.git
+cd foodmart-data-mysql
+mvn install

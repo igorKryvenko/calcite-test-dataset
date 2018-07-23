@@ -1,1 +1,3 @@
+CREATE USER foodmart IDENTIFIED BY foodmart;
+GRANT CONNECT, RESOURCE TO foodmart;
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));

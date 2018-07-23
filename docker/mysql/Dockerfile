@@ -14,6 +14,34 @@
 # limitations under the License.
 
 FROM mysql:5.7
-
+USER root
 COPY init.sql /docker-entrypoint-initdb.d/
+COPY init.sh /docker-entrypoint-initdb.d/
+
+RUN chmod a+x /docker-entrypoint-initdb.d/init.sql \
+    && chmod a+x /docker-entrypoint-initdb.d/init.sh
+
+## UTF-8
+ENV LANG       en_US.UTF-8
+ENV LC_ALL     en_US.UTF-8
+
+RUN apt-get update && \
+  apt-get dist-upgrade -y
+
+## Remove any existing JDKs
+RUN apt-get --purge remove openjdk*
+
+## Install Oracle's JDK
+RUN echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
+RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" > /etc/apt/sources.list.d/webupd8team-java-trusty.list
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
+RUN mkdir /usr/share/man/man1
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends oracle-java8-installer && \
+  apt-get clean all
+
+RUN apt-get install -y \
+ git \
+ maven
+
 
