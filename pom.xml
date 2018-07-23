@@ -47,5 +47,7 @@
     <module>h2</module>
     <module>hsqldb</module>
     <module>twissandra</module>
+    <module>mysql</module>
+    <module>postgresql</module>
   </modules>
 </project>

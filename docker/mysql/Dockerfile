@@ -45,3 +45,5 @@ RUN apt-get install -y \
  maven
 
 
+RUN mkdir /home/mysql \
+    && chown mysql:mysql /home/mysql
