@@ -59,7 +59,7 @@ case $1 in
   docker-compose up  --build --force-recreate geode
   ;;
 (jdbc)
-  docker-compose up --build --force-recreate mysql
+  docker-compose up --build --force-recreate postgres
   ;;
 (all)
   docker-compose up -d --build --force-recreate

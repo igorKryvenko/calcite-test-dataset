@@ -15,7 +15,8 @@
 
 FROM postgres:9.3
 
-COPY init.sql /docker-entrypoint-initdb.d/
+#COPY init.sql /docker-entrypoint-initdb.d/
 
-
-
+RUN mkdir -p /scripts/
+# COPY data.sql /scripts/
+COPY postgresql_dump.sql /docker-entrypoint-initdb.d/
