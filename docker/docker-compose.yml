@@ -45,7 +45,6 @@ services:
 
   mysql:
     build: mysql
-    container_name: mysql
     ports:
       - "3306:3306"
     environment:
@@ -62,6 +61,7 @@ services:
       POSTGRES_USER: foodmart
       POSTGRES_PASSWORD: foodmart
       POSTGRES_DB: foodmart
+
 
   jdbc:
     build: jdbc

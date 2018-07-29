@@ -18,8 +18,10 @@ FROM mysql:5.7
 COPY init.sql /docker-entrypoint-initdb.d/
 RUN mkdir -p /scripts/
 COPY data.sql /scripts/
+RUN sed -i "s/skip-name-resolve//" /etc/mysql/conf.d/docker.cnf
 
 ## UTF-8
 ENV LANG       en_US.UTF-8
 ENV LC_ALL     en_US.UTF-8
+
 
