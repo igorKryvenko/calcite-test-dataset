@@ -61,6 +61,14 @@ services:
       POSTGRES_USER: foodmart
       POSTGRES_PASSWORD: foodmart
       POSTGRES_DB: foodmart
+  splunk:
+    image: splunk/splunk:7.1.2
+    environment:
+      SPLUNK_START_ARGS: --accept-license --seed-passwd ASHUI1488
+      SPLUNK_ENABLE_LISTEN: 9997
+      SPLUNK_ADD: tcp 1514
+    ports:
+      - "8089:8088"
 
 
   jdbc:

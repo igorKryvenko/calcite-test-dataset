@@ -37,12 +37,11 @@ start_cassandra() {
 }
 
 case $1 in
-(mongo)
-    start_mongodb
-    docker-compose up --build --force-recreate mongo
+(mongodb)
+    docker-compose up --build --force-recreate mongodb
   ;;
 (cassandra)
-  start_cassandra
+  # start_cassandra
   docker-compose up --build --force-recreate cassandra
   ;;
 (elastic2)
@@ -55,7 +54,7 @@ case $1 in
   docker-compose up -d druid --build --force-recreate
   ;;
 (geode)
-  start_geode
+  # start_geode
   docker-compose up  --build --force-recreate geode
   ;;
 (jdbc)
@@ -63,6 +62,9 @@ case $1 in
   docker-compose up --build --force-recreate mysql postgres
   date
   ;;
+(splunk)
+    docker-compose up --build --force-recreate splunk
+    ;;
 (all)
   docker-compose up -d --build --force-recreate
   ;;
