@@ -52,6 +52,9 @@ services:
       MYSQL_USER: foodmart
       MYSQL_PASSWORD: foodmart
       MYSQL_ROOT_PASSWORD: foodmart
+      MYSQL_HOST: mysql.local
+    volumes:
+      - ./mysqldata:/var/lib/mysql
     command: --sql_mode=""
   postgres:
     build: postgres

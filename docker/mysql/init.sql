@@ -526,6 +526,7 @@ CREATE UNIQUE INDEX i_region_pk ON region (region_id);
 CREATE UNIQUE INDEX i_warehouse_pk ON warehouse (warehouse_id);
 CREATE UNIQUE INDEX i_warehouse_class_pk ON warehouse_class (warehouse_class_id);
 SELECT 'MYSQL started successfully' AS '';
+SOURCE /scripts/data.sql;
 INSERT INTO agg_pl_01_sales_fact_1997 ( product_id, time_id, customer_id, store_sales_sum, store_cost_sum, unit_sales_sum, fact_count ) SELECT product_id AS product_id, time_id AS time_id, customer_id AS customer_id, SUM(store_sales) AS store_sales, SUM(store_cost) AS store_cost, SUM(unit_sales) AS unit_sales, COUNT(*) AS fact_count FROM sales_fact_1997 GROUP BY product_id, time_id, customer_id;
 INSERT INTO agg_ll_01_sales_fact_1997 ( product_id, time_id, customer_id, store_sales, store_cost, unit_sales, fact_count ) SELECT product_id AS product_id, time_id AS time_id, customer_id AS customer_id, SUM(store_sales) AS store_sales, SUM(store_cost) AS store_cost, SUM(unit_sales) AS unit_sales, COUNT(*) AS fact_count FROM sales_fact_1997 GROUP BY product_id, time_id, customer_id;
 INSERT INTO agg_l_03_sales_fact_1997 ( customer_id, time_id, store_sales, store_cost, unit_sales, fact_count ) SELECT customer_id, time_id, SUM(store_sales) AS store_sales, SUM(store_cost) AS store_cost, SUM(unit_sales) AS unit_sales, COUNT(*) AS fact_count FROM sales_fact_1997 GROUP BY customer_id, time_id;

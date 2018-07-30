@@ -51,7 +51,7 @@ case $1 in
  docker-compose up -d elastic5 --build --force-recreate
  ;;
 (druid)
-  docker-compose up -d druid --build --force-recreate
+  docker-compose up  --build --force-recreate druid
   ;;
 (geode)
   # start_geode
@@ -59,7 +59,7 @@ case $1 in
   ;;
 (jdbc)
   date +"%T"
-  docker-compose up --build --force-recreate mysql postgres
+  docker-compose up --build --force-recreate mysql
   date
   ;;
 (splunk)
