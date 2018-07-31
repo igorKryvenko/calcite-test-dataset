@@ -15,7 +15,7 @@
 
 FROM mongo:3.2
 
-COPY zips /dataset/zips/
+COPY zips.json /dataset/zips/
 COPY foodmart /dataset/foodmart/
 COPY init_mongodb.sh /docker-entrypoint-initdb.d/
 

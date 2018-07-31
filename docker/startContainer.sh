@@ -59,13 +59,13 @@ case $1 in
   ;;
 (jdbc)
   date +"%T"
-  docker-compose up --build --force-recreate mysql
+  docker-compose up --build  mysql postgres
   date
   ;;
 (splunk)
     docker-compose up --build --force-recreate splunk
     ;;
 (all)
-  docker-compose up -d --build --force-recreate
+  docker-compose up --build --force-recreate mysql postgres cassandra mongodb geode druid
   ;;
 esac

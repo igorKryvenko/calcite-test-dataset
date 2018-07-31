@@ -20,6 +20,10 @@ RUN mkdir -p /scripts/
 COPY data.sql /scripts/
 RUN sed -i "s/skip-name-resolve//" /etc/mysql/conf.d/docker.cnf
 
+COPY mysql.cnf /etc/mysql/conf.d/
+# Done for performance: See ---> https://stackoverflow.com/questions/9114209/innodb-inserts-very-slow-and-slowing-down
+
+
 ## UTF-8
 ENV LANG       en_US.UTF-8
 ENV LC_ALL     en_US.UTF-8

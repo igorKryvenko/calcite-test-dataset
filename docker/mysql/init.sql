@@ -1,4 +1,10 @@
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+set global net_buffer_length=1000000;
+set global max_allowed_packet=1000000000;
+SET foreign_key_checks = 0;
+
+USE foodmart;
+
 
 ## DROP TABLE sales_fact_1997 IF EXISTS;
 CREATE TABLE sales_fact_1997(
@@ -526,7 +532,9 @@ CREATE UNIQUE INDEX i_region_pk ON region (region_id);
 CREATE UNIQUE INDEX i_warehouse_pk ON warehouse (warehouse_id);
 CREATE UNIQUE INDEX i_warehouse_class_pk ON warehouse_class (warehouse_class_id);
 SELECT 'MYSQL started successfully' AS '';
+
 SOURCE /scripts/data.sql;
+
 INSERT INTO agg_pl_01_sales_fact_1997 ( product_id, time_id, customer_id, store_sales_sum, store_cost_sum, unit_sales_sum, fact_count ) SELECT product_id AS product_id, time_id AS time_id, customer_id AS customer_id, SUM(store_sales) AS store_sales, SUM(store_cost) AS store_cost, SUM(unit_sales) AS unit_sales, COUNT(*) AS fact_count FROM sales_fact_1997 GROUP BY product_id, time_id, customer_id;
 INSERT INTO agg_ll_01_sales_fact_1997 ( product_id, time_id, customer_id, store_sales, store_cost, unit_sales, fact_count ) SELECT product_id AS product_id, time_id AS time_id, customer_id AS customer_id, SUM(store_sales) AS store_sales, SUM(store_cost) AS store_cost, SUM(unit_sales) AS unit_sales, COUNT(*) AS fact_count FROM sales_fact_1997 GROUP BY product_id, time_id, customer_id;
 INSERT INTO agg_l_03_sales_fact_1997 ( customer_id, time_id, store_sales, store_cost, unit_sales, fact_count ) SELECT customer_id, time_id, SUM(store_sales) AS store_sales, SUM(store_cost) AS store_cost, SUM(unit_sales) AS unit_sales, COUNT(*) AS fact_count FROM sales_fact_1997 GROUP BY customer_id, time_id;
@@ -538,4 +546,6 @@ INSERT INTO agg_c_14_sales_fact_1997 ( product_id, customer_id, promotion_id, st
 INSERT INTO agg_lc_100_sales_fact_1997 ( product_id, customer_id, quarter, the_year, store_sales, store_cost, unit_sales, fact_count ) SELECT B.product_id, B.customer_id, D.quarter, D.the_year, SUM(B.store_sales) AS store_sales, SUM(B.store_cost) AS store_cost, SUM(B.unit_sales) AS unit_sales, COUNT(*) AS fact_count FROM sales_fact_1997 B, time_by_day D WHERE B.time_id = D.time_id GROUP BY B.product_id, B.customer_id, D.quarter, D.the_year;
 INSERT INTO agg_c_special_sales_fact_1997 ( product_id, customer_id, promotion_id, store_id, time_month, time_quarter, time_year, store_sales_sum, store_cost_sum, unit_sales_sum, fact_count ) SELECT B.product_id, B.customer_id, B.promotion_id, B.store_id, D.month_of_year, D.quarter, D.the_year, SUM(B.store_sales) AS store_sales_sum, SUM(B.store_cost) AS store_cost_sum, SUM(B.unit_sales) AS unit_sales_sum, COUNT(*) AS fact_count FROM sales_fact_1997 B, time_by_day D WHERE B.time_id = D.time_id GROUP BY B.product_id, B.customer_id, B.promotion_id, B.store_id, D.month_of_year, D.quarter, D.the_year;
 INSERT INTO agg_g_ms_pcat_sales_fact_1997 ( gender, marital_status, product_family, product_department, product_category, month_of_year, quarter, the_year, store_sales, store_cost, unit_sales, customer_count, fact_count ) SELECT C.gender, C.marital_status, PC.product_family, PC.product_department, PC.product_category, T.month_of_year, T.quarter, T.the_year, SUM(B.store_sales) AS store_sales, SUM(B.store_cost) AS store_cost, SUM(B.unit_sales) AS unit_sales, COUNT(DISTINCT C.customer_id) AS customer_count, COUNT(*) AS fact_count FROM sales_fact_1997 B, time_by_day T, product P, product_class PC, customer C WHERE B.time_id = T.time_id AND B.customer_id = C.customer_id AND B.product_id = P.product_id AND P.product_class_id = PC.product_class_id GROUP BY C.gender, C.marital_status, PC.product_family, PC.product_department, PC.product_category, T.month_of_year, T.quarter, T.the_year;
+SET foreign_key_checks = 1;
 SELECT 'MYSQL started successfully' AS '';
+
