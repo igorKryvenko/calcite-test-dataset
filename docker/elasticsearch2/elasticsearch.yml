@@ -1,0 +1,12 @@
+network.host: 0.0.0.0
+script.engine.groovy.inline.search: on
+script.inline: true
+script.indexed: true
+transport.host: localhost
+transport.tcp.port: 19300
+http.port: 19200
+discovery.zen.minimum_master_nodes: 1
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-methods: OPTIONS, HEAD, GET, POST, PUT, DELETE
+http.cors.allow-headers: "X-Requested-With, Content-Type, Content-Length, X-User"

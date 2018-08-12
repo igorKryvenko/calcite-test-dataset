@@ -44,7 +44,6 @@
     <module>parent</module>
     <module>foodmart-dataset</module>
     <module>zips</module>
-    <module>vm</module>
     <module>h2</module>
     <module>hsqldb</module>
     <module>mysql</module>

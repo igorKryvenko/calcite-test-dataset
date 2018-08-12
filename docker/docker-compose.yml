@@ -1,0 +1,86 @@
+version: "3"
+services:
+  mongodb:
+    build: mongo
+    restart: always
+    ports:
+      - "127.0.0.1:27017:27017"
+
+  elasticsearch2:
+    build: elasticsearch2
+    ports:
+      - "19200:19200"
+      - "19300:19300"
+    network_mode: "host"
+
+
+
+  elasticsearch5:
+    build: elasticsearch5
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    network_mode: "host"
+
+
+  elastic:
+    build: elastcisearch_mapping
+    depends_on:
+      - elasticsearch2
+      - elasticsearch5
+    network_mode: "host"
+
+
+  cassandra:
+    build: cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_HOST=127.0.0.1:9042
+
+
+  geode:
+    build: geode
+    ports:
+      - "127.0.0.1:10334:10334"
+      - "127.0.0.1:40405:40405"
+      - "127.0.0.1:8484:8484"
+      - "127.0.0.1:1099:1099"
+      - "127.0.0.1:7070:7070"
+    network_mode: "host"
+    tty: true
+
+
+  druid:
+    build: druid
+    ports:
+      - "8081:8081"
+      - "8082:8082"
+      - "8083:8083"
+      - "8084:8084"
+      - "8090:8090"
+
+
+
+
+  mysql:
+    build: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: foodmart
+      MYSQL_USER: foodmart
+      MYSQL_PASSWORD: foodmart
+      MYSQL_ROOT_PASSWORD: foodmart
+
+
+
+  postgres:
+    build: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: foodmart
+      POSTGRES_PASSWORD: foodmart
+      POSTGRES_DB: foodmart
+

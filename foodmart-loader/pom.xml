@@ -30,12 +30,6 @@
     </dependency>
 
     <dependency>
-      <groupId>com.github.vlsi.calcite</groupId>
-      <artifactId>vm</artifactId>
-      <type>pom</type>
-    </dependency>
-
-    <dependency>
       <groupId>org.pentaho</groupId>
       <artifactId>mondrian</artifactId>
     </dependency>
